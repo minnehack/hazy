@@ -1,0 +1,327 @@
+<main>
+    <h1>MinneHack 2025 registration form</h1>
+
+    <p>Thank you for your interest in MinneHack 2025! In order to register, we need a couple pieces of information from you.</p>
+
+    <p class="gdpr">This form is not GDPR-compliant. If you are an EU data subject, <a href="mailto:acm@umn.edu">contact us via email</a> to register.</p>
+
+    <% if (error && 'general' in error) { %>
+        <div class="error-message">
+            <span class="visually-hidden">Error:</span> <%= error.general.message %>
+        </div>
+    <% } %>
+
+    <form action="/registration" method="post" enctype="multipart/form-data">
+        <div class="form-group <%= (error && 'name' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="name">
+                    Full name
+                </label>
+            </h2>
+            <% if (error && 'name' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.name.message %>
+                </div>
+            <% } %>
+            <input type="text" id="name" name="name" required minlength="1" maxlength="100" value="<%= (previous && 'name' in previous) ? previous.name : '' %>">
+        </div>
+        <div class="form-group <%= (error && 'gender' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="gender">
+                    Gender
+                </label>
+            </h2>
+            <% if (error && 'gender' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.gender.message %>
+                </div>
+            <% } %>
+            <input type="text" id="gender" name="gender" required minlength="1" maxlength="100" value="<%= (previous && 'gender' in previous) ? previous.gender : '' %>">
+        </div>
+        <div class="form-group <%= (error && 'email' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="email">
+                    Email address
+                </label>
+            </h2>
+            <div class="hint">
+                We'll use this email address to send you important information about the event, as well as communicate about prizes if you win.
+            </div>
+            <% if (error && 'hint' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.hint.message %>
+                </div>
+            <% } %>
+            <input type="email" id="email" name="email" required maxlength="100" value="<%= (previous && 'email' in previous) ? previous.email : '' %>">
+        </div>
+        <div class="form-group <%= (error && 'phone' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="phone">
+                    Phone number
+                </label>
+            </h2>
+            <div class="hint">
+                This is a secondary point of contact if we can't reach you by email.
+            </div>
+            <% if (error && 'phone' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.phone.message %>
+                </div>
+            <% } %>
+            <input type="tel" id="phone" name="phone" required maxlength="100" value="<%= (previous && 'phone' in previous) ? previous.phone : '' %>">
+        </div>
+        <div class="form-group <%= (error && 'country' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="country">
+                    Country
+                </label>
+            </h2>
+            <% if (error && 'country' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.country.message %>
+                </div>
+            <% } %>
+            <select id="country" name="country" required>
+                <% for (const country of COUNTRIES) { %>
+                    <option value="<%= country.code %>" <%= (previous && 'country' in previous && (previous.country === country)) ? 'selected' : '' %>><%= country.name %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="form-group <%= (error && 'school' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="school">
+                    School
+                </label>
+            </h2>
+            <% if (error && 'school' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.school.message %>
+                </div>
+            <% } %>
+            <input type="text" id="school" name="school" required minlength="1" maxlength="100" value="<%= (previous && 'school' in previous) ? previous.school : '' %>">
+        </div>
+        <div class="form-group <%= (error && 'level_of_study' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="level_of_study">
+                    Level of Study
+                </label>
+            </h2>
+            <% if (error && 'level_of_study' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.level_of_study.message %>
+                </div>
+            <% } %>
+            <select required name="level_of_study" id="level_of_study">
+                <option value="middle" <%= (previous && 'level_of_study' in previous && previous.level_of_study=== 'middle') ? 'selected' : '' %>>Middle School</option>
+                <option value="high" <%= (previous && 'level_of_study' in previous && previous.level_of_study=== 'high') ? 'selected' : '' %>>High School</option>
+                <option value="undergrad" <%= (previous && 'level_of_study' in previous && previous.level_of_study=== 'undergrad') ? 'selected' : '' %>>Undergraduation / Bachelors</option>
+                <option value="grad" <%= (previous && 'level_of_study' in previous && previous.level_of_study=== 'grad') ? 'selected' : '' %>>Graduation / Masters</option>
+                <option value="phd" <%= (previous && 'level_of_study' in previous && previous.level_of_study=== 'phd') ? 'selected' : '' %>>PhD / Doctorate</option>
+                <option value="postdoc" <%= (previous && 'level_of_study' in previous && previous.level_of_study=== 'postdoc') ? 'selected' : '' %>>Post Doctorate</option>
+            </select>
+        </div>
+        <div class="form-group <%= (error && 'age' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="age">
+                    Age
+                </label>
+            </h2>
+            <div class="hint">
+                If you are a minor, you will have to provide a <a href="https://minnehack.io/minorwaiver.pdf">waiver</a> signed by your parent or guardian.
+                Submit it by email to <a href="mailto:acm@umn.edu">acm@umn.edu</a>
+            </div>
+            <% if (error && 'age' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.age.message %>
+                </div>
+            <% } %>
+            <input type="text" id="age" name="age" inputmode="numeric" required minlength="1" maxlength="10" value="<%= (previous && 'age' in previous) ? previous.age : '' %>"> <!-- https://stackoverflow.blog/2022/12/26/why-the-number-input-is-the-worst-input/ -->
+        </div>
+        <div class="form-group <%= (error && 'tshirt' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="tshirt">
+                    T-shirt size
+                </label>
+            </h2>
+            <div class="hint">
+                As part of coming to MinneHack, you'll get a free shirt!
+            </div>
+            <% if (error && 'tshirt' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.tshirt.message %>
+                </div>
+            <% } %>
+            <select required name="tshirt" id="tshirt">
+                <option value="xs" <%= (previous && 'tshirt' in previous && previous.tshirt === 'xs') ? 'selected' : '' %>>XS</option>
+                <option value="s" <%= (previous && 'tshirt' in previous && previous.tshirt === 's') ? 'selected' : '' %>>S</option>
+                <option value="m" <%= (previous && 'tshirt' in previous && previous.tshirt === 'm') ? 'selected' : '' %>>M</option>
+                <option value="l" <%= (previous && 'tshirt' in previous && previous.tshirt === 'l') ? 'selected' : '' %>>L</option>
+                <option value="xl" <%= (previous && 'tshirt' in previous && previous.tshirt === 'xl') ? 'selected' : '' %>>XL</option>
+                <option value="xxl" <%= (previous && 'tshirt' in previous && previous.tshirt === 'xxl') ? 'selected' : '' %>>XXL</option>
+            </select>
+        </div>
+        <div class="form-group <%= (error && 'driving' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="driving">
+                    Driving
+                </label>
+            </h2>
+            <% if (error && 'driving' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.driving.message %>
+                </div>
+            <% } %>
+            <label>
+                <input type="checkbox" id="driving" name="driving" <%= (previous && 'driving' in previous && previous.driving) ? 'checked' : '' %>>
+                I plan to drive to MinneHack and park on campus.
+            </label>
+        </div>
+        <div class="form-group <%= (error && 'discord_tag' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="discord_tag">
+                    Discord tag
+                </label>
+            </h2>
+            <div class="hint">
+                We use Discord to communicate with hackers before, during, and after the event. Joining the discord is optional, but if you do,
+                providing us your tag will help us communicate with you.
+            </div>
+            <% if (error && 'discord_tag' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.discord_tag.message %>
+                </div>
+            <% } %>
+            <input type="text" name="discord_tag" id="discord_tag" minlength="1" maxlength="100" value="<%= (previous && 'discord_tag' in previous) ? previous.discord_tag : '' %>">
+        </div>
+        <div class="form-group <%= (error && 'dietary_restrictions' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="dietary_restrictions">
+                    Dietary restrictions
+                </label>
+            </h2>
+            <div class="hint">
+                If you have any dietary restrictions, please let us know so we can accommodate you.
+            </div>
+            <% if (error && 'dietary_restrictions' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.dietary_restrictions.message %>
+                </div>
+            <% } %>
+            <textarea name="dietary_restrictions" id="dietary_restrictions" minlength="1" maxlength="10_000"><%= (previous && 'dietary_restrictions' in previous) ? previous.dietary_restrictions : '' %></textarea>
+        </div>
+        <div class="form-group <%= (error && 'accomodations' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="accomodations">
+                    Other accomodations
+                </label>
+            </h2>
+            <div class="hint">
+                If you have any other accomodations you need, please let us know.
+            </div>
+            <% if (error && 'accomodations' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.accomodations.message %>
+                </div>
+            <% } %>
+            <textarea name="accomodations" id="accomodations" minlength="1" maxlength="10_000"><%= (previous && 'accomodations' in previous) ? previous.accomodations : '' %></textarea>
+        </div>
+        <div class="form-group <%= (error && 'reimbursement' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="reimbursement">
+                    Reimbursement
+                </label>
+            </h2>
+            <div class="hint">
+                Travel reimbursement is offered on an as-possible basis. If you are traveling and would like reimbursement, please
+                check this box, but note that we may not be able to reimburse you.
+            </div>
+            <% if (error && 'reimbursement' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.reimbursement.message %>
+                </div>
+            <% } %>
+            <label>
+                <input type="checkbox" id="reimbursement" name="reimbursement" <%= (previous && 'reimbursement' in previous && previous.reimbursement) ? 'checked' : '' %>>
+                I would like to apply for travel reimbursement.
+            </label>
+        </div>
+        <div class="reimbursement-questions">
+            <div class="form-group <%= (error && 'reimbursement_amount' in error) ? 'error' : '' %>">
+                <h2>
+                    <label for="reimbursement_amount">
+                        Reimbursement amount in USD
+                    </label>
+                </h2>
+                <% if (error && 'reimbursement_amount' in error) { %>
+                    <div class="error-message">
+                        <span class="visually-hidden">Error:</span> <%= error.reimbursement_amount.message %>
+                    </div>
+                <% } %>
+                <div class="money-input">
+                    <div class="money-before">$</div>
+                    <input type="text" id="reimbursement_amount" name="reimbursement_amount" class="money" minlength="1" maxlength="100" value="<%= (previous && 'reimbursement_amount' in previous) ? previous.reimbursement_amount : '' %>">
+                </div>
+            </div>
+            <div class="form-group <%= (error && 'reimbursement_desc' in error) ? 'error' : '' %>">
+                <h2>
+                    <label for="reimbursement_desc">
+                        Reimbursement description
+                    </label>
+                </h2>
+                <div class="hint">
+                    Please describe the travel you are doing to receive reimbursement.
+                </div>
+                <% if (error && 'reimbursement_desc' in error) { %>
+                    <div class="error-message">
+                        <span class="visually-hidden">Error:</span> <%= error.reimbursement_desc.message %>
+                    </div>
+                <% } %>
+                <textarea name="reimbursement_desc" id="reimbursement_desc" minlength="1" maxlength="10000"><%= (previous && 'reimbursement_desc' in previous) ? previous.reimbursement_desc : '' %></textarea>
+            </div>
+            <div class="form-group <%= (error && 'reimbursement_strict' in error) ? 'error' : '' %>">
+                <h2>
+                    <label for="reimbursement_strict">
+                        Strictness of reimbursement
+                    </label>
+                </h2>
+                <div class="hint">
+                    Reimbursement decisions may be made late and may not be made before the start of the event.
+                    If you have questions about reimbursement, please <a href="mailto:acm@umn.edu">send an email</a> to us so we can get
+                    in contact.
+                </div>
+                <% if (error && 'reimbursement_strict' in error) { %>
+                    <div class="error-message">
+                        <span class="visually-hidden">Error:</span> <%= error.reimbursement_strict.message %>
+                    </div>
+                <% } %>
+                <label>
+                    <input type="checkbox" id="reimbursement_strict" name="reimbursement_strict" <%= (previous && 'reimbursement_strict' in previous && previous.reimbursement_strict) ? 'checked' : '' %>>
+                    I will not be able to attend without reimbursement.
+                </label>
+            </div>
+        </div>
+        <div class="form-group <%= (error && 'resume' in error) ? 'error' : '' %>">
+            <h2>
+                <label for="resume">
+                    Resume
+                </label>
+            </h2>
+            <div class="hint">
+                We provide a resume book to our sponsors. If you would like to be included in the resume book, please upload your resume here.
+                Documents over 10MB will not be accepted. (If you have a large resume, <a href="mailto:acm@umn.edu">send an email</a> and we can add it manually.)
+            </div>
+            <% if (error && 'resume' in error) { %>
+                <div class="error-message">
+                    <span class="visually-hidden">Error:</span> <%= error.resume.message %>
+                </div>
+            <% } %>
+            <% if (hadFile && ((!error) || (error && !('resume' in error)))) { %>
+                <div class="hint reupload-nag">
+                    Due to other errors in your submission, your resume was not saved. Please re-upload it.
+                </div>
+            <% } %>
+            <input type="file" name="resume" id="resume" accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</main>

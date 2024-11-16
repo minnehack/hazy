@@ -1,0 +1,16 @@
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<main>
+    <h1>Thank you!</h1>
+    <p>Thanks for registering for MinneHack. We'll send you an email with more registration info.</p>
+    <canvas id="confetti"></canvas>
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('confetti');
+            const myConfetti = confetti.create(canvas, {
+                resize: true,
+                useWorker: true,
+            })
+            myConfetti()
+        });
+    </script>
+</main>
