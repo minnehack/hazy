@@ -207,7 +207,7 @@
                     <span class="visually-hidden">Error:</span> <%= error.dietary_restrictions.message %>
                 </div>
             <% } %>
-            <textarea name="dietary_restrictions" id="dietary_restrictions" minlength="1" maxlength="10_000"><%= (previous && 'dietary_restrictions' in previous) ? previous.dietary_restrictions : '' %></textarea>
+            <textarea name="dietary_restrictions" id="dietary_restrictions" minlength="1" maxlength="10000"><%= (previous && 'dietary_restrictions' in previous) ? previous.dietary_restrictions : '' %></textarea>
         </div>
         <div class="form-group <%= (error && 'accomodations' in error) ? 'error' : '' %>">
             <h2>
@@ -223,7 +223,7 @@
                     <span class="visually-hidden">Error:</span> <%= error.accomodations.message %>
                 </div>
             <% } %>
-            <textarea name="accomodations" id="accomodations" minlength="1" maxlength="10_000"><%= (previous && 'accomodations' in previous) ? previous.accomodations : '' %></textarea>
+            <textarea name="accomodations" id="accomodations" minlength="1" maxlength="10000"><%= (previous && 'accomodations' in previous) ? previous.accomodations : '' %></textarea>
         </div>
         <div class="form-group <%= (error && 'reimbursement' in error) ? 'error' : '' %>">
             <h2>
