@@ -342,6 +342,7 @@ app.post("/registration", upload.single("resume"), async (req, res) => {
             <p>In order to stay in contact, you should consider joining our <a href="${DISCORD_LINK}">Discord server</a>.</p>
             <p>When you arrive at the event, here's the QR code you should show us in order to sign in:</p>
             <img src="${ORIGIN}/r/${registration_code}" alt="QR code" />
+            <a href="${ORIGIN}/r/${registration_code}">If the image above doesn't work, click here.</a>
             <p>If you have any questions, feel free to reply to this email.</p>
         `,
       }
@@ -447,7 +448,10 @@ app.post("/registration/:code/check-in", (req, res) => {
 const QR_CACHE = path.join(__dirname, "../qr-cache");
 
 app.get('/r/:code', async (req, res) => {
-    const { code } = req.params;
+    let { code } = req.params;
+    if(code.endsWith('.png')) {
+    	code = code.slice(0, code.length - 4)
+    }
     if (!code || typeof code !== 'string') {
         render(req, res.status(400), "error", {
         title: "MinneHack | Error",
