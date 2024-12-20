@@ -341,7 +341,7 @@ app.post("/registration", upload.single("resume"), async (req, res) => {
             <p>Thank you for registering for MinneHack! We're excited to have you join us.</p>
             <p>In order to stay in contact, you should consider joining our <a href="${DISCORD_LINK}">Discord server</a>.</p>
             <p>When you arrive at the event, here's the QR code you should show us in order to sign in:</p>
-            <img src="${ORIGIN}/r/${registration_code}" alt="QR code" />
+            <img src="${ORIGIN}/r/${registration_code}.png" alt="QR code" />
             <a href="${ORIGIN}/r/${registration_code}">If the image above doesn't work, click here.</a>
             <p>If you have any questions, feel free to reply to this email.</p>
         `,
@@ -444,6 +444,48 @@ app.post("/registration/:code/check-in", (req, res) => {
     res.redirect(`/registration/${code}`);
   }
 });
+
+app.post("/api/registration/:code/check-in", (req, res) => {
+  const { code } = req.params;
+  if (!code || typeof code !== "string" || !req.session?.admin) {
+    res.status(400).json({ error: "Invalid registration code", success: false });
+  } else {
+    db.prepare(
+      "update registrations set checked_in = 1, checked_in_at = current_timestamp where registration_code = ?",
+    ).run(code);
+    res.json({ success: true, error: false });
+  }
+})
+
+app.post("/registration/:code/check-out", (req, res) => {
+  const { code } = req.params;
+  if (!code || typeof code !== "string" || !req.session?.admin) {
+    render(req, res, "error", {
+      title: "MinneHack | Error",
+      message: "Invalid registration code",
+    });
+  } else {
+    db.prepare(
+      "update registrations set checked_in = 0, checked_in_at = null where registration_code = ?",
+    ).run(code);
+    res.redirect(`/registration/${code}`);
+  }
+})
+
+app.get("/registrations", (req, res) => {
+  if (!req.session?.admin) {
+    render(req, res.status(403), "error", {
+      title: "MinneHack | Error",
+      message: "Not authorized",
+    });
+  } else {
+    const registrations = db.prepare("select * from registrations").all();
+    render(req, res, "registrations", {
+      title: "MinneHack | Registrations",
+      registrations,
+    });
+  }
+})
 
 const QR_CACHE = path.join(__dirname, "../qr-cache");
 
