@@ -1,6 +1,7 @@
 :root {
     --accent: #edca5a;
     --bg: #fff;
+    --bg-1: #f5f5f5;
     --fg: #252525;
     --fg-1: #555;
     --error: #e00;
@@ -198,4 +199,35 @@ input[type="submit"] {
     height: 100%;
     pointer-events: none;
     z-index: 1000;
+}
+
+table, td, tr, th {
+    border: 1px solid var(--fg-1);
+    border-collapse: collapse;
+}
+
+td {
+    padding: 0.5rem;
+
+    input[type="submit"] {
+        margin: 0;
+    }
+}
+
+table {
+    width: 100%;
+}
+
+tr:nth-child(even) {
+    background-color: var(--bg-1);
+}
+
+input.bad {
+    background-color: var(--error);
+
+    &:hover {
+        opacity: .8;
+        background-color: var(--error);
+
+    }
 }

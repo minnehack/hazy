@@ -1,9 +1,14 @@
 <main>
     <p>Registration for "<%= registration.name %>"</p>
-    <% if registration.checked_in %>
+    <% if(registration.checked_in) {%>
     <div>This person has already checked in.</div>
-    <% } %>
-    <form method="post" action="/registration/<%= registration.registration_code %>/check-in">
-        <input type="submit" value="Check in">
+    <form method="post" action="/registration/<%= registration.registration_code %>/check-out">
+        <input type="submit" value="Check out" class="bad">
     </form>
+    <% } else { %>
+        <form method="post" action="/registration/<%= registration.registration_code %>/check-in">
+            <input type="submit" value="Check in">
+        </form>
+    <% } %>
+    
 </main>

@@ -51,15 +51,17 @@ declare module "express-session" {
 
 const app = express();
 
-app.set("view engine", "ejs");
 app.use(
   session({
     secret: demand("COOKIE_SECRET", process.env.COOKIE_SECRET),
-    cookie: { secure: true },
-    resave: false,
+    cookie: { secure: false },
+    resave: true,
     saveUninitialized: true,
+    store: new session.MemoryStore(),
   }),
 );
+
+app.set("view engine", "ejs");
 app.set("trust proxy", 1); // trust nginx about http
 app.set("views", path.join(__dirname, "../views"));
 app.use(express.static(path.join(__dirname, "../static")));
@@ -399,7 +401,9 @@ app.post("/admin", (req, res) => {
   // Thank you.
   if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     req.session.admin = true;
-    render(req, res, "logged-in", { title: "Logged in :)" });
+    req.session.save(() => {
+      render(req, res, "logged-in", { title: "Logged in :)" });
+    })
   } else {
     res.redirect("admin");
   }

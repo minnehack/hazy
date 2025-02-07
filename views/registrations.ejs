@@ -1,0 +1,26 @@
+<main>
+    <h1>Registrations</h1>
+    <p>
+        There are currently <b><%= registrations.length %></b> registrations.
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Checked in</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% registrations.forEach(registration => { %>
+            <tr>
+                <td><%= registration.name %></td>
+                <td><%= registration.checked_in ? 'Yes' : 'No' %></td>
+                <td>
+                    <a href="/registration/<%= registration.registration_code %>">View</a>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</main>
